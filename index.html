@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stephen Chen · StylePhone</title>
+<meta name="description" content="Stephen Chen 的个人主页：一名十一年级学生，以及他正在做的东西。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230E5F52'/%3E%3Crect x='15' y='9' width='34' height='46' rx='7' fill='%23E7E6E1'/%3E%3Crect x='21' y='15' width='22' height='26' fill='%2316181A'/%3E%3Ccircle cx='32' cy='47' r='2.6' fill='%230E5F52'/%3E%3C/svg%3E">
+<style>
+/* ============================================================
+   配色：纸灰底 + 墨色字 + 一点深青
+   要换主题色，只改下面这几个变量就够了
+   ============================================================ */
+:root{
+  --paper:#E7E6E1;
+  --panel:#F1F0EC;
+  --ink:#16181A;
+  --soft:#4B5054;
+  --rule:#C6C4BC;
+  --accent:#0E5F52;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Courier New",monospace;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ---------- 顶部 ---------- */
+.top{
+  border-bottom:1px solid var(--rule);
+  background:var(--paper);
+  position:sticky;top:0;z-index:20;
+}
+.top-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:14px 0;
+}
+.brand{
+  display:flex;align-items:center;gap:9px;
+  text-decoration:none;font-size:14px;letter-spacing:.02em;
+}
+.brand-mark{
+  width:18px;height:18px;border-radius:4px;background:var(--accent);
+  display:grid;place-items:center;flex:0 0 auto;
+}
+.brand-mark::after{content:"";width:7px;height:11px;background:var(--paper);border-radius:2px}
+.nav{display:flex;gap:18px;font-size:13px;color:var(--soft)}
+.nav a{text-decoration:none;padding:4px 0;border-bottom:1px solid transparent;transition:border-color .18s}
+.nav a:hover,.nav a:focus-visible{border-bottom-color:var(--accent);color:var(--ink)}
+
+/* ---------- Hero ---------- */
+.hero{padding:44px 0 40px}
+.hero-grid{display:grid;gap:32px}
+
+.kicker{
+  font-size:12px;letter-spacing:.14em;color:var(--soft);
+  margin:0 0 18px;text-transform:none;
+}
+.kicker b{color:var(--accent);font-weight:600}
+
+h1{
+  margin:0;
+  font-size:clamp(40px,12vw,92px);
+  line-height:.94;
+  font-weight:600;
+  letter-spacing:-.035em;
+}
+h1 .line2{
+  display:block;
+  color:var(--accent);
+  margin-left:1.6em;
+}
+.lede{
+  margin:22px 0 0;
+  max-width:34em;
+  font-size:17px;
+  color:var(--soft);
+}
+.lede strong{color:var(--ink);font-weight:600}
+
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:46px;padding:0 22px;
+  font-family:inherit;font-size:15px;
+  border:1px solid var(--ink);background:transparent;color:var(--ink);
+  cursor:pointer;text-decoration:none;
+  transition:background .18s,color .18s,transform .18s;
+}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#F4F3EF}
+.btn.primary:hover{background:#0B4B42;border-color:#0B4B42;color:#fff}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ---------- 右侧状态面板 ---------- */
+.panel{
+  background:var(--panel);
+  border:1px solid var(--rule);
+  padding:22px 20px 6px;
+}
+.panel-title{
+  font-size:12px;letter-spacing:.12em;color:var(--soft);
+  margin:0 0 6px;display:flex;align-items:center;gap:8px;
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto}
+.row{
+  display:grid;grid-template-columns:1fr;gap:2px;
+  padding:14px 0;border-bottom:1px solid var(--rule);
+}
+.row:last-child{border-bottom:0}
+.row dt{font-size:12px;color:var(--soft);letter-spacing:.04em;margin:0}
+.row dd{margin:0;font-size:15px;font-weight:500}
+
+/* ---------- 通用区块 ---------- */
+.sec{padding:44px 0;border-top:1px solid var(--rule)}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:24px}
+.sec-title{font-size:13px;letter-spacing:.12em;color:var(--soft);margin:0}
+.sec-note{font-size:12px;color:var(--soft);font-family:var(--mono);margin:0}
+.body-copy{max-width:38em;font-size:16.5px}
+.body-copy p{margin:0 0 16px}
+.body-copy p:last-child{margin-bottom:0}
+
+/* ---------- 参数表 ---------- */
+.spec{border-top:1px solid var(--rule)}
+.spec .item{
+  display:grid;gap:4px;
+  padding:16px 0;
+  border-bottom:1px solid var(--rule);
+}
+.spec .k{font-size:12.5px;color:var(--soft);letter-spacing:.04em}
+.spec .v{font-size:16px}
+.spec .v small{color:var(--soft);font-size:13px}
+
+/* ---------- 做过的事 ---------- */
+.item-list{list-style:none;margin:0;padding:0}
+.work{
+  display:grid;gap:6px;
+  padding:20px 0;border-bottom:1px solid var(--rule);
+  text-decoration:none;
+}
+.work:first-child{border-top:1px solid var(--rule)}
+.work .when{font-family:var(--mono);font-size:12.5px;color:var(--accent)}
+.work .name{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.work .desc{font-size:14.5px;color:var(--soft);max-width:40em}
+.work:hover .name{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+
+/* ---------- 联系 ---------- */
+.contact-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.contact-list li{border-bottom:1px solid var(--rule)}
+.contact-link{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:18px 0;text-decoration:none;
+}
+.contact-link .label{font-size:13px;color:var(--soft)}
+.contact-link .value{font-size:17px;font-weight:500;min-width:0;overflow-wrap:anywhere}
+.contact-link:hover .value{color:var(--accent)}
+
+/* ---------- 页脚 ---------- */
+footer{
+  border-top:1px solid var(--rule);
+  padding:26px 0 40px;
+  display:flex;flex-wrap:wrap;gap:10px 24px;
+  justify-content:space-between;
+  font-size:12.5px;color:var(--soft);
+}
+
+/* ---------- 提示条 ---------- */
+.toast{
+  position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);
+  background:var(--ink);color:var(--paper);
+  padding:11px 20px;font-size:14px;border-radius:2px;
+  opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;
+  z-index:60;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- 首屏入场（只做一次，不做满屏淡入） ---------- */
+@media (prefers-reduced-motion:no-preference){
+  h1,.lede,.actions{animation:rise .62s cubic-bezier(.2,.7,.3,1) both}
+  .lede{animation-delay:.08s}
+  .actions{animation-delay:.16s}
+  .panel{animation:fade .8s ease both;animation-delay:.2s}
+}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* ============================================================
+   桌面端：≥768px 才切两栏
+   ============================================================ */
+@media (min-width:768px){
+  .wrap{padding:0 40px}
+  .hero{padding:72px 0 64px}
+  .hero-grid{grid-template-columns:1.55fr 1fr;gap:56px;align-items:start}
+  .panel{padding:26px 24px 8px}
+  .row{grid-template-columns:104px 1fr;gap:10px;align-items:baseline}
+  .sec{padding:60px 0}
+  .sec-title{font-size:13px}
+  .spec .item{grid-template-columns:140px 1fr;gap:24px;padding:18px 0}
+  .work{grid-template-columns:96px 1fr;column-gap:24px;padding:22px 0}
+  .work .when{grid-row:span 2;padding-top:4px}
+  .work .name,.work .desc{grid-column:2}
+  footer{padding:30px 0 54px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ 顶部导航 ============ -->
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>StylePhone</span>
+    </a>
+    <nav class="nav" aria-label="页面导航">
+      <a href="#about">关于</a>
+      <a href="#work">在做的事</a>
+      <a href="#contact">联系</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ 首屏 ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">个人主页 · <b>站点 001</b></p>
+        <h1>Stephen<span class="line2">Chen</span></h1>
+        <!-- ↑ 改名字：把 Stephen 和 Chen 换成你的名字，两行显示 -->
+        <p class="lede">
+          十一年级学生。我喜欢把脑子里的想法做成<strong>能点、能动、能跑</strong>的东西，
+          现在大多数时间花在网页和 AI 上。
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="#work">看看我在做什么</a>
+          <button class="btn" id="copyMail" type="button">复制邮箱</button>
+        </div>
+      </div>
+
+      <aside class="panel" aria-label="当前状态">
+        <p class="panel-title"><span class="dot" aria-hidden="true"></span>现在</p>
+        <dl>
+          <div class="row"><dt>身份</dt><dd>11 年级学生</dd></div>
+          <div class="row"><dt>主项目</dt><dd>AI 社团</dd></div>
+          <div class="row"><dt>在学</dt><dd>前端 · 提示词</dd></div>
+          <div class="row"><dt>所在地</dt><dd>北京</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ 关于 ============ -->
+  <section class="sec" id="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title">关于</h2>
+        <p class="sec-note">01 — ABOUT</p>
+      </div>
+      <div class="body-copy">
+        <p>
+          我是 Stephen。对我来说，写代码最有趣的部分不是语法，而是
+          <strong>把一个模糊的想法，变成别人打开浏览器就能看到的东西</strong>。
+        </p>
+        <p>
+          去年我带着一群同学做 AI 社团，教大家用提示词和最简单的网页技术做小项目。
+          教别人的过程反而让我把自己那点半懂的知識捋顺了。
+        </p>
+        <p>
+          这个页面就是我的第一个正式作品，用最朴素的 HTML、CSS 和 JavaScript 写的，
+          没有任何框架，托管在 GitHub 上。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 参数表：把「简介」拆成可读的几行 ============ -->
+  <section class="sec" id="spec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title">参数</h2>
+        <p class="sec-note">02 — SPEC</p>
+      </div>
+      <div class="spec">
+        <!-- 每一项改 .v 里面的文字就行，想加一行就复制整个 .item -->
+        <div class="item"><div class="k">目前身份</div><div class="v">高中十一年级学生</div></div>
+        <div class="item"><div class="k">在读课程</div><div class="v">AP 计算机 · AP 物理 · AP 统计 <small>（在学中）</small></div></div>
+        <div class="item"><div class="k">常用工具</div><div class="v">VS Code、GitHub、Figma <small>（按使用频率排）</small></div></div>
+        <div class="item"><div class="k">会一点</div><div class="v">HTML / CSS / JavaScript / Python 基础</div></div>
+        <div class="item"><div class="k">正在学</div><div class="v">响应式布局、DOM、把项目真正发布上线</div></div>
+        <div class="item"><div class="k">可聊的话题</div><div class="v">AI 工具怎么用、网站怎么做、社团怎么招人</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 做过的事 ============ -->
+  <section class="sec" id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title">在做的事</h2>
+        <p class="sec-note">03 — WORK</p>
+      </div>
+      <ul class="item-list">
+        <li>
+          <a class="work" href="#work">
+            <span class="when">2025 — 现在</span>
+            <span class="name">AI 社团</span>
+            <span class="desc">带同学从零学提示词和网页制作，每学期做一次小型作品展。</span>
+          </a>
+        </li>
+        <li>
+          <a class="work" href="#work">
+            <span class="when">2025</span>
+            <span class="name">StylePhone 个人站</span>
+            <span class="desc">你正在看的这个页面。手写 HTML/CSS，从本地文件到 GitHub Pages 全流程自己走一遍。</span>
+          </a>
+        </li>
+        <li>
+          <a class="work" href="#work">
+            <span class="when">2026</span>
+            <span class="name">一个还没名字的小工具</span>
+            <span class="desc">用来整理每周的作业和考试安排，目前只在本地跑，做完了会放上来。</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 联系 ============ -->
+  <section class="sec" id="contact">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title">联系</h2>
+        <p class="sec-note">04 — CONTACT</p>
+      </div>
+      <ul class="contact-list">
+        <!-- 把下面两处 href 换成你自己的真实地址 -->
+        <li>
+          <a class="contact-link" href="mailto:13263325764@163.com">
+            <span class="label">邮箱</span>
+            <span class="value">13263325764@163.com</span>
+          </a>
+        </li>
+        <li>
+          <a class="contact-link" href="https://github.com/StephenChen122" target="_blank" rel="noopener">
+            <span class="label">GitHub</span>
+            <span class="value">github.com/StephenChen122</span>
+          </a>
+        </li>
+        <li>
+          <a class="contact-link" href="#top">
+            <span class="label">回到顶部</span>
+            <span class="value">全页看完</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;width:100%">
+    <span>© <span id="year">2026</span> Stephen Chen · StylePhone</span>
+    <span>手写 HTML · CSS · JavaScript</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* 复制邮箱：点了给真实反馈，不做假按钮 */
+(function () {
+  var EMAIL = "13263325764@163.com";        // ← 改这里要和上面「邮箱」那一行一致
+  var btn = document.getElementById("copyMail");
+  var toast = document.getElementById("toast");
+  var timer = null;
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(timer);
+    timer = setTimeout(function () { toast.classList.remove("show"); }, 1800);
+  }
+
+  btn.addEventListener("click", function () {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(EMAIL).then(function () {
+        showToast("邮箱已复制：" + EMAIL);
+      }).catch(function () {
+        showToast("复制失败，请手动记下：" + EMAIL);
+      });
+    } else {
+      showToast("这个浏览器不支持自动复制，请手动记下：" + EMAIL);
+    }
+  });
+})();
+
+/* 页脚年份自动更新 */
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
