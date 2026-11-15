@@ -3,416 +3,1219 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stephen Chen · StylePhone</title>
-<meta name="description" content="Stephen Chen 的个人主页：一名十一年级学生，以及他正在做的东西。">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230E5F52'/%3E%3Crect x='15' y='9' width='34' height='46' rx='7' fill='%23E7E6E1'/%3E%3Crect x='21' y='15' width='22' height='26' fill='%2316181A'/%3E%3Ccircle cx='32' cy='47' r='2.6' fill='%230E5F52'/%3E%3C/svg%3E">
+<title>精神 spirit · 生活版</title>
 <style>
-/* ============================================================
-   配色：纸灰底 + 墨色字 + 一点深青
-   要换主题色，只改下面这几个变量就够了
-   ============================================================ */
 :root{
-  --paper:#E7E6E1;
-  --panel:#F1F0EC;
-  --ink:#16181A;
-  --soft:#4B5054;
-  --rule:#C6C4BC;
-  --accent:#0E5F52;
+  --bg:#0A100E;
+  --text:#E9E5D8;
+  --muted:#93A398;
+  --line:rgba(178,204,186,.18);
+  --line2:rgba(196,220,201,.4);
+  --good:#7FB08C;
+  --warn:#D6A155;
+  --bad:#C4623F;
+  --lamp-h:44;
+  --lamp-i:.7;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Courier New",monospace;
   --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC",Georgia,serif;
 }
-
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html,body{margin:0}
 body{
-  margin:0;
-  background:var(--paper);
-  color:var(--ink);
-  font-family:var(--sans);
-  font-size:16px;
-  line-height:1.7;
-  -webkit-font-smoothing:antialiased;
+  background:var(--bg);color:var(--text);font-family:var(--sans);
+  font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;min-height:100vh;
 }
-img{max-width:100%;display:block}
-a{color:inherit}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 50% -8%,hsla(var(--lamp-h),60%,66%,calc(var(--lamp-i)*.13)),transparent 58%);
+  transition:background .35s ease;
+}
+.app{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:18px 16px 32px;min-height:100vh;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.screen{display:none}
+.screen.is-active{display:flex;flex-direction:column;gap:12px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;color:var(--muted);margin:0 0 14px}
 
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+/* ---------- 开始页 ---------- */
+.start-grid{display:grid;gap:28px}
+.title{font-family:var(--serif);font-size:clamp(32px,9vw,58px);line-height:1.03;font-weight:600;margin:0 0 16px;letter-spacing:.01em}
+.title em{display:block;color:#E9B96A;font-style:normal}
+.deck{margin:0;max-width:32em;color:#C7CDC4;font-size:15px}
+.rules{list-style:none;margin:26px 0 0;padding:0;border-top:1px solid var(--line)}
+.rules li{display:grid;gap:3px;padding:12px 0;border-bottom:1px solid var(--line)}
+.rules .k{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:#E9B96A}
+.rules .d{font-size:13.5px;color:#B7C0B6}
+.rules .d b{color:#DCE4D9;font-weight:600}
+.ends{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:6px}
+.ends li{display:grid;grid-template-columns:auto 1fr;gap:10px;font-size:13px;color:#B7C0B6}
+.ends .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:#8FA796;border:1px solid var(--line);padding:2px 6px;white-space:nowrap}
 
-/* ---------- 顶部 ---------- */
-.top{
-  border-bottom:1px solid var(--rule);
-  background:var(--paper);
-  position:sticky;top:0;z-index:20;
-}
-.top-inner{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:16px;padding:14px 0;
-}
-.brand{
-  display:flex;align-items:center;gap:9px;
-  text-decoration:none;font-size:14px;letter-spacing:.02em;
-}
-.brand-mark{
-  width:18px;height:18px;border-radius:4px;background:var(--accent);
-  display:grid;place-items:center;flex:0 0 auto;
-}
-.brand-mark::after{content:"";width:7px;height:11px;background:var(--paper);border-radius:2px}
-.nav{display:flex;gap:18px;font-size:13px;color:var(--soft)}
-.nav a{text-decoration:none;padding:4px 0;border-bottom:1px solid transparent;transition:border-color .18s}
-.nav a:hover,.nav a:focus-visible{border-bottom-color:var(--accent);color:var(--ink)}
+.panel{border:1px solid var(--line2);background:rgba(255,255,255,.025);padding:22px 18px;align-self:start}
+.panel h2{font-size:12px;letter-spacing:.18em;color:var(--muted);margin:0 0 20px;font-weight:400;font-family:var(--mono)}
+.ctl{display:grid;grid-template-columns:1fr auto;gap:6px 10px;margin-bottom:18px}
+.ctl .lab{font-size:13.5px;color:#C9D0C6}
+.ctl .val{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.ctl input[type=range]{grid-column:1/-1;width:100%;margin:4px 0 0;accent-color:#E9B96A;height:22px;cursor:pointer;background:transparent}
+.scale{grid-column:1/-1;display:flex;justify-content:space-between;font-size:11px;font-family:var(--mono);color:#77897D}
+.switch{display:flex;align-items:center;gap:10px;margin:0 0 22px;cursor:pointer}
+.switch input{accent-color:#E9B96A;width:16px;height:16px;cursor:pointer}
+.switch span{font-size:13.5px;color:#C9D0C6}
+.btn-go{width:100%;min-height:52px;font-family:inherit;font-size:16px;background:#E9B96A;color:#1B1206;border:1px solid #E9B96A;cursor:pointer;letter-spacing:.06em;transition:background .18s,transform .12s}
+.btn-go:hover{background:#F0C57F}
+.btn-go:active{transform:translateY(1px)}
+.btn-go:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.foot-note{font-size:11.5px;line-height:1.65;color:#7E8E83;margin:18px 0 0;padding-top:14px;border-top:1px solid var(--line)}
 
-/* ---------- Hero ---------- */
-.hero{padding:44px 0 40px}
-.hero-grid{display:grid;gap:32px}
+/* ---------- HUD ---------- */
+.hud{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hud-mid{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.1em}
+.btn-ghost{font-family:inherit;font-size:12.5px;color:#A9B4AA;background:transparent;border:1px solid var(--line);padding:7px 12px;cursor:pointer}
+.btn-ghost:hover{border-color:var(--line2);color:var(--text)}
+.btn-ghost:focus-visible{outline:2px solid #E9B96A;outline-offset:2px}
 
-.kicker{
-  font-size:12px;letter-spacing:.14em;color:var(--soft);
-  margin:0 0 18px;text-transform:none;
-}
-.kicker b{color:var(--accent);font-weight:600}
+/* ---------- 精神地图 ---------- */
+.stage{position:relative;width:100%;max-width:460px;margin:0 auto;aspect-ratio:.95;border:1px solid var(--line);
+  background:radial-gradient(ellipse at 50% 0%,rgba(233,185,106,.09),transparent 62%),linear-gradient(180deg,#0E1714,#080D0B 78%);
+  overflow:hidden}
+@media(min-width:820px){.stage{max-width:620px;aspect-ratio:1.5}}
+.lamp{position:absolute;left:-15%;right:-15%;top:-30%;height:95%;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 0%,hsla(var(--lamp-h),62%,72%,calc(var(--lamp-i)*.4)) 0%,hsla(var(--lamp-h),50%,60%,calc(var(--lamp-i)*.1)) 42%,transparent 70%)}
+.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.edges line{stroke:rgba(178,204,186,.14);stroke-width:1}
+.beams line{stroke:rgba(206,120,86,.5);stroke-width:1;stroke-dasharray:2 5}
+.beams.is-live line{animation:flow 1s linear infinite}
+.beams line.bad{stroke:rgba(196,98,63,.95)}
+@keyframes flow{to{stroke-dashoffset:-14}}
 
-h1{
-  margin:0;
-  font-size:clamp(40px,12vw,92px);
-  line-height:.94;
-  font-weight:600;
-  letter-spacing:-.035em;
-}
-h1 .line2{
-  display:block;
-  color:var(--accent);
-  margin-left:1.6em;
-}
-.lede{
-  margin:22px 0 0;
-  max-width:34em;
-  font-size:17px;
-  color:var(--soft);
-}
-.lede strong{color:var(--ink);font-weight:600}
+.ai{position:absolute;left:50%;top:7%;transform:translate(-50%,-50%);width:54px;height:42px;display:grid;place-content:center;
+  border:1px solid rgba(196,98,63,.5);background:rgba(196,98,63,.06);font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:#D68D74}
+.ai::after{content:"";position:absolute;inset:-6px;border:1px solid rgba(196,98,63,.16)}
+.ai.is-live{animation:aiPulse 1.6s ease-in-out infinite}
+@keyframes aiPulse{0%,100%{box-shadow:0 0 0 0 rgba(196,98,63,0)}50%{box-shadow:0 0 26px 2px rgba(196,98,63,.26)}}
 
-.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-.btn{
-  display:inline-flex;align-items:center;gap:8px;
-  min-height:46px;padding:0 22px;
-  font-family:inherit;font-size:15px;
-  border:1px solid var(--ink);background:transparent;color:var(--ink);
-  cursor:pointer;text-decoration:none;
-  transition:background .18s,color .18s,transform .18s;
-}
-.btn:hover{background:var(--ink);color:var(--paper)}
-.btn:active{transform:translateY(1px)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:#F4F3EF}
-.btn.primary:hover{background:#0B4B42;border-color:#0B4B42;color:#fff}
-.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.stat{position:absolute;transform:translate(-50%,-50%);width:94px;height:82px;padding:0 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  background:rgba(16,28,24,.9);border:1px solid var(--line2);transition:border-color .2s,background .2s}
+.stat::after{content:"";position:absolute;inset:3px;border:1px solid rgba(178,204,186,.12);pointer-events:none}
+.stat .lab{font-size:15px;letter-spacing:.08em}
+.stat .num{font-family:var(--mono);font-size:20px;line-height:1.1}
+.stat .sbar{width:70%;height:3px;background:rgba(255,255,255,.12);margin-top:2px}
+.stat .sbar i{display:block;height:100%;width:100%;background:var(--good);transition:width .3s,background .3s}
+.stat.is-hit{border-color:var(--bad);background:rgba(196,98,63,.18)}
+.stat.is-up{border-color:var(--good);background:rgba(127,176,140,.16)}
+.stat.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translate(-50%,-50%)}20%{transform:translate(calc(-50% - 5px),-50%)}45%{transform:translate(calc(-50% + 5px),-50%)}70%{transform:translate(calc(-50% - 3px),-50%)}}
 
-/* ---------- 右侧状态面板 ---------- */
-.panel{
-  background:var(--panel);
-  border:1px solid var(--rule);
-  padding:22px 20px 6px;
-}
-.panel-title{
-  font-size:12px;letter-spacing:.12em;color:var(--soft);
-  margin:0 0 6px;display:flex;align-items:center;gap:8px;
-}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 auto}
-.row{
-  display:grid;grid-template-columns:1fr;gap:2px;
-  padding:14px 0;border-bottom:1px solid var(--rule);
-}
-.row:last-child{border-bottom:0}
-.row dt{font-size:12px;color:var(--soft);letter-spacing:.04em;margin:0}
-.row dd{margin:0;font-size:15px;font-weight:500}
+.you{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:96px;height:96px;border-radius:50%;
+  display:grid;place-content:center;justify-items:center;border:1px solid var(--line2);
+  background:radial-gradient(circle,rgba(233,185,106,.1),rgba(0,0,0,0) 68%);pointer-events:none}
+.you::after{content:"";position:absolute;inset:7px;border-radius:50%;border:1px dashed rgba(233,185,106,.2)}
+.you .big{font-family:var(--serif);font-size:22px;line-height:1}
+.you .small{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:#8C7E63;margin-top:5px}
 
-/* ---------- 通用区块 ---------- */
-.sec{padding:44px 0;border-top:1px solid var(--rule)}
-.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:24px}
-.sec-title{font-size:13px;letter-spacing:.12em;color:var(--soft);margin:0}
-.sec-note{font-size:12px;color:var(--soft);font-family:var(--mono);margin:0}
-.body-copy{max-width:38em;font-size:16.5px}
-.body-copy p{margin:0 0 16px}
-.body-copy p:last-child{margin-bottom:0}
+/* ---------- 事件 ---------- */
+.event{border:1px solid var(--line2);background:rgba(255,255,255,.022);padding:15px 16px 14px;display:flex;flex-direction:column;gap:7px}
+.event-head{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--muted)}
+.event-head .tag{color:#D68D74}
+.ev-line{margin:0;font-family:var(--serif);font-size:16px;line-height:1.55;color:#D9CFB6;padding-left:12px;border-left:2px solid rgba(233,185,106,.45)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.chip{font-family:var(--mono);font-size:11.5px;padding:2px 7px;border:1px solid var(--line);color:#AEB8AE}
+.chip.plus{color:#9CC4A6;border-color:rgba(127,176,140,.4)}
+.chip.minus{color:#D08E76;border-color:rgba(196,98,63,.4)}
+.chips.mods{gap:6px;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line)}
+.chip.mod{color:#C9CFC4;border-color:rgba(201,207,196,.32)}
+.chip.warn{color:#E9B96A;border-color:rgba(233,185,106,.45)}
 
-/* ---------- 参数表 ---------- */
-.spec{border-top:1px solid var(--rule)}
-.spec .item{
-  display:grid;gap:4px;
-  padding:16px 0;
-  border-bottom:1px solid var(--rule);
-}
-.spec .k{font-size:12.5px;color:var(--soft);letter-spacing:.04em}
-.spec .v{font-size:16px}
-.spec .v small{color:var(--soft);font-size:13px}
+/* ---------- 交互 ---------- */
+.inter{display:flex;align-items:center;gap:10px;margin-top:8px}
+.btn-inter{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:#E9B96A;background:transparent;
+  border:1px solid rgba(233,185,106,.45);padding:6px 14px;min-height:34px;cursor:pointer;transition:background .16s}
+.btn-inter:hover{background:rgba(233,185,106,.1)}
+.btn-inter:disabled{color:#77897D;border-color:var(--line);cursor:default;background:transparent}
+.inter-lab{font-size:12.5px;color:#93A398}
+.hud-tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:#E9B96A;flex:1;text-align:center}
+.hud-tag.is-fading{color:#D68D74}
 
-/* ---------- 做过的事 ---------- */
-.item-list{list-style:none;margin:0;padding:0}
-.work{
-  display:grid;gap:6px;
-  padding:20px 0;border-bottom:1px solid var(--rule);
-  text-decoration:none;
-}
-.work:first-child{border-top:1px solid var(--rule)}
-.work .when{font-family:var(--mono);font-size:12.5px;color:var(--accent)}
-.work .name{font-size:19px;font-weight:600;letter-spacing:-.01em}
-.work .desc{font-size:14.5px;color:var(--soft);max-width:40em}
-.work:hover .name{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+/* ---------- 身份选择 ---------- */
+.veil{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(6,10,8,.92);padding:18px}
+.veil.on{display:flex}
+.pick{width:100%;max-width:520px;border:1px solid var(--line2);background:#0C1310;padding:24px 20px;max-height:88vh;overflow:auto}
+.pick .eyebrow{margin-bottom:8px}
+.pick-title{font-family:var(--serif);font-size:23px;margin:0 0 8px;font-weight:600}
+.pick-sub{font-size:13px;color:#93A398;margin:0 0 16px}
+.pick-list{display:grid;gap:10px}
+.pick-card{display:flex;flex-direction:column;gap:6px;text-align:left;background:transparent;
+  border:1px solid var(--line);color:var(--text);font-family:inherit;padding:13px 14px;cursor:pointer}
+.pick-card:hover{border-color:#E9B96A;background:rgba(233,185,106,.06)}
+.pick-card:focus-visible{outline:2px solid #E9B96A;outline-offset:2px}
+.pick-card .pn{font-family:var(--serif);font-size:18px}
+.pick-card .pl{font-size:13px;color:#B7C0B6;line-height:1.55}
+.pick-card .pe{display:flex;flex-wrap:wrap;gap:6px}
+.pick-card .pw{font-family:var(--mono);font-size:11px;color:#8FA796;letter-spacing:.04em}
+.ev-result{margin:0;font-size:13.5px;color:#C4CCC2;display:none}
+.ev-result.show{display:block}
 
-/* ---------- 联系 ---------- */
-.contact-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
-.contact-list li{border-bottom:1px solid var(--rule)}
-.contact-link{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding:18px 0;text-decoration:none;
-}
-.contact-link .label{font-size:13px;color:var(--soft)}
-.contact-link .value{font-size:17px;font-weight:500;min-width:0;overflow-wrap:anywhere}
-.contact-link:hover .value{color:var(--accent)}
+/* ---------- 选项 ---------- */
+.acts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:720px){.acts{grid-template-columns:repeat(3,1fr)}}
+.act{text-align:left;padding:10px 11px;min-height:100px;display:flex;flex-direction:column;gap:3px;
+  background:transparent;border:1px solid var(--line);color:var(--text);font-family:inherit;cursor:pointer;
+  transition:border-color .16s,background .16s,opacity .2s}
+.act:hover{border-color:#E9B96A;background:rgba(233,185,106,.06)}
+.act:active{background:rgba(233,185,106,.13)}
+.act:focus-visible{outline:2px solid #E9B96A;outline-offset:2px}
+.act .an{font-size:15px;font-weight:600;letter-spacing:.04em}
+.act .ad{font-size:11.5px;color:#94A399;line-height:1.4}
+.act .ae{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:6px}
+.act.locked{opacity:.35;pointer-events:none}
 
-/* ---------- 页脚 ---------- */
-footer{
-  border-top:1px solid var(--rule);
-  padding:26px 0 40px;
-  display:flex;flex-wrap:wrap;gap:10px 24px;
-  justify-content:space-between;
-  font-size:12.5px;color:var(--soft);
-}
+/* ---------- 记录 ---------- */
+.log{border:1px solid var(--line);background:rgba(0,0,0,.2)}
+.log summary{cursor:pointer;padding:10px 14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;color:var(--muted);list-style:none}
+.log summary::-webkit-details-marker{display:none}
+.log summary::after{content:"＋";float:right;color:#6E8074}
+.log[open] summary::after{content:"－"}
+.log ol{list-style:none;margin:0;padding:0 14px 12px;max-height:160px;overflow:auto}
+.log li{display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:baseline;padding:6px 0;border-top:1px solid var(--line);font-size:12.5px}
+.log li .n{font-family:var(--mono);color:#7E9184}
+.log li .t{color:#B7C1B7;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log li .a{font-size:11.5px;color:#8FA796;font-family:var(--mono)}
 
-/* ---------- 提示条 ---------- */
-.toast{
-  position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);
-  background:var(--ink);color:var(--paper);
-  padding:11px 20px;font-size:14px;border-radius:2px;
-  opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;
-  z-index:60;
-}
-.toast.show{opacity:1;transform:translate(-50%,0)}
+/* ---------- 结束 ---------- */
+.end{max-width:640px;margin:0 auto;padding:6px 0}
+.end h1{font-family:var(--serif);font-size:clamp(30px,8.5vw,50px);margin:0 0 14px;font-weight:600}
+.end .deck{color:#C2CAC0}
+.end-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:22px 0 16px}
+.end-stats .box{border:1px solid var(--line);padding:10px 12px}
+.end-stats .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--muted);display:block}
+.end-stats .v{font-family:var(--mono);font-size:20px}
+.end-counts{font-family:var(--mono);font-size:11.5px;color:#8FA796;margin:0 0 20px;line-height:1.9}
+.end-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-ghost2{min-height:52px;padding:0 20px;font-family:inherit;font-size:15px;background:transparent;color:#C9D0C6;border:1px solid var(--line2);cursor:pointer}
+.btn-ghost2:hover{border-color:#E9B96A;color:#F2E3C8}
+.tip{margin:20px 0 0;font-size:12.5px;line-height:1.75;color:#7E8E83;border-top:1px solid var(--line);padding-top:14px}
 
-/* ---------- 首屏入场（只做一次，不做满屏淡入） ---------- */
-@media (prefers-reduced-motion:no-preference){
-  h1,.lede,.actions{animation:rise .62s cubic-bezier(.2,.7,.3,1) both}
-  .lede{animation-delay:.08s}
-  .actions{animation-delay:.16s}
-  .panel{animation:fade .8s ease both;animation-delay:.2s}
+@media(min-width:820px){
+  .start-grid{grid-template-columns:1.3fr .8fr;gap:48px;align-items:start}
+  .stat{width:104px;height:88px}
+  .stat .num{font-size:22px}
+  .event{padding:17px 20px}
 }
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-
-/* ============================================================
-   桌面端：≥768px 才切两栏
-   ============================================================ */
-@media (min-width:768px){
-  .wrap{padding:0 40px}
-  .hero{padding:72px 0 64px}
-  .hero-grid{grid-template-columns:1.55fr 1fr;gap:56px;align-items:start}
-  .panel{padding:26px 24px 8px}
-  .row{grid-template-columns:104px 1fr;gap:10px;align-items:baseline}
-  .sec{padding:60px 0}
-  .sec-title{font-size:13px}
-  .spec .item{grid-template-columns:140px 1fr;gap:24px;padding:18px 0}
-  .work{grid-template-columns:96px 1fr;column-gap:24px;padding:22px 0}
-  .work .when{grid-row:span 2;padding-top:4px}
-  .work .name,.work .desc{grid-column:2}
-  footer{padding:30px 0 54px}
+@media(prefers-reduced-motion:reduce){
+  .beams.is-live line,.ai.is-live,.stat.shake{animation:none}
 }
+body.no-motion .beams.is-live line,body.no-motion .ai.is-live{animation:none}
 </style>
 </head>
 <body>
+<div class="app">
 
-<!-- ============ 顶部导航 ============ -->
-<header class="top">
-  <div class="wrap top-inner">
-    <a class="brand" href="#top">
-      <span class="brand-mark" aria-hidden="true"></span>
-      <span>StylePhone</span>
-    </a>
-    <nav class="nav" aria-label="页面导航">
-      <a href="#about">关于</a>
-      <a href="#work">在做的事</a>
-      <a href="#contact">联系</a>
-    </nav>
-  </div>
-</header>
-
-<main id="top">
-
-  <!-- ============ 首屏 ============ -->
-  <section class="hero">
-    <div class="wrap hero-grid">
+  <!-- ================= 开始页 ================= -->
+  <section class="screen is-active" id="scrStart">
+    <div class="start-grid">
       <div>
-        <p class="kicker">个人主页 · <b>站点 001</b></p>
-        <h1>Stephen<span class="line2">Chen</span></h1>
-        <!-- ↑ 改名字：把 Stephen 和 Chen 换成你的名字，两行显示 -->
-        <p class="lede">
-          十一年级学生。我喜欢把脑子里的想法做成<strong>能点、能动、能跑</strong>的东西，
-          现在大多数时间花在网页和 AI 上。
+        <p class="eyebrow">2D · 无限回合 · 结局自己探索</p>
+        <h1 class="title">精神<em>spirit</em></h1>
+        <p class="deck">
+          外面有个东西每天丢一句话给你，然后你决定这一晚怎么过。
+          学习、刷视频、看书、躺平、打游戏、出门——每个选择都补一边、亏一边。
+          一百次"明天再说"之后，你会长成什么样的人。
         </p>
-        <div class="actions">
-          <a class="btn primary" href="#work">看看我在做什么</a>
-          <button class="btn" id="copyMail" type="button">复制邮箱</button>
-        </div>
+
+        <ul class="rules">
+          <li>
+            <span class="k">理智 SAN</span>
+            <span class="d">克制和社交的能量。学习会消耗它。它高的时候别人更愿意接近你；它低的时候，<b>被孤立</b>的事会明显变多。<b>归零即判负</b>。</span>
+          </li>
+          <li>
+            <span class="k">愉悦 JOY</span>
+            <span class="d">娱乐补它，学习耗它。它<b>归零即判负</b>——不是"终于安静了"，是彻底不想动了。</span>
+          </li>
+          <li>
+            <span class="k">自信 CONF</span>
+            <span class="d">学习涨它，娱乐掉它。<b>≥75</b> 时所有扣减减半；<b>&lt;25</b> 时所有扣减翻倍。<b>归零不会结束游戏</b>，但会一直疼。</span>
+          </li>
+          <li>
+            <span class="k">事件也会改选项</span>
+            <span class="d">每一件事除了扣数值，还会临时改写某些选项的强弱。比如"朋友跟别人吃饭"之后，<b>学习 / 看书 / 打游戏</b>的正面变少、负面变重；"半夜刷到海边"之后，<b>刷视频 / 躺平 / 出门</b>反而更好用。也有好消息的日子。</span>
+          </li>
+        </ul>
+
+        <ul class="ends">
+          <li><span class="tag">提示</span><span>结局自己探索。你怎么过这一天，就会走到哪儿。</span></li>
+        </ul>
       </div>
 
-      <aside class="panel" aria-label="当前状态">
-        <p class="panel-title"><span class="dot" aria-hidden="true"></span>现在</p>
-        <dl>
-          <div class="row"><dt>身份</dt><dd>11 年级学生</dd></div>
-          <div class="row"><dt>主项目</dt><dd>AI 社团</dd></div>
-          <div class="row"><dt>在学</dt><dd>前端 · 提示词</dd></div>
-          <div class="row"><dt>所在地</dt><dd>北京</dd></div>
-        </dl>
+      <aside class="panel">
+        <h2>场景设置</h2>
+        <label class="ctl">
+          <span class="lab">光源亮度</span>
+          <span class="val" id="lightIV">70</span>
+          <input type="range" id="lightI" min="15" max="100" value="70">
+        </label>
+        <label class="ctl">
+          <span class="lab">光源色温</span>
+          <span class="val" id="lightTV">40</span>
+          <input type="range" id="lightT" min="0" max="100" value="40">
+          <span class="scale"><span>暖</span><span>冷</span></span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="motion" checked>
+          <span>光波动效</span>
+        </label>
+        <button class="btn-go" id="btnStart" type="button">开始这一天</button>
+        <p class="foot-note">
+          每回合：AI 随机丢一件事（先扣一次数值），然后你从六个选项里挑一个。
+          每回合还能点一次「交互」——回头看看这件事本身，代价你自己担。
+          扣减按"点下去那一刻"的自信算倍率。
+          回合没有上限，直到某个结局发生。
+          这是简化模型，不是诊断工具；现实里的数值不显示，但道理差不多。
+        </p>
       </aside>
     </div>
   </section>
 
-  <!-- ============ 关于 ============ -->
-  <section class="sec" id="about">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 class="sec-title">关于</h2>
-        <p class="sec-note">01 — ABOUT</p>
+  <!-- ================= 游戏页 ================= -->
+  <section class="screen" id="scrPlay">
+    <div class="hud">
+      <span class="hud-mid" id="turnVal">回合 01</span>
+      <span class="hud-tag" id="identVal"></span>
+      <button class="btn-ghost" id="btnQuit" type="button">回到设置</button>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="lamp"></div>
+      <svg class="wires" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <g class="edges">
+          <line x1="50" y1="24" x2="16" y2="52"></line>
+          <line x1="50" y1="24" x2="84" y2="52"></line>
+          <line x1="16" y1="52" x2="84" y2="52"></line>
+        </g>
+        <g class="beams" id="beams">
+          <line id="beam-conf" x1="50" y1="7" x2="50" y2="24"></line>
+          <line id="beam-san" x1="50" y1="7" x2="16" y2="52"></line>
+          <line id="beam-joy" x1="50" y1="7" x2="84" y2="52"></line>
+        </g>
+      </svg>
+
+      <div class="ai" id="ai">AI</div>
+
+      <div class="stat" data-key="conf" style="left:50%;top:24%">
+        <span class="lab">自信</span>
+        <span class="num" data-num="conf">50</span>
+        <span class="sbar"><i data-bar="conf"></i></span>
       </div>
-      <div class="body-copy">
-        <p>
-          我是 Stephen。对我来说，写代码最有趣的部分不是语法，而是
-          <strong>把一个模糊的想法，变成别人打开浏览器就能看到的东西</strong>。
-        </p>
-        <p>
-          去年我带着一群同学做 AI 社团，教大家用提示词和最简单的网页技术做小项目。
-          教别人的过程反而让我把自己那点半懂的知識捋顺了。
-        </p>
-        <p>
-          这个页面就是我的第一个正式作品，用最朴素的 HTML、CSS 和 JavaScript 写的，
-          没有任何框架，托管在 GitHub 上。
-        </p>
+      <div class="stat" data-key="san" style="left:16%;top:52%">
+        <span class="lab">理智</span>
+        <span class="num" data-num="san">60</span>
+        <span class="sbar"><i data-bar="san"></i></span>
       </div>
+      <div class="stat" data-key="joy" style="left:84%;top:52%">
+        <span class="lab">愉悦</span>
+        <span class="num" data-num="joy">60</span>
+        <span class="sbar"><i data-bar="joy"></i></span>
+      </div>
+
+      <div class="you">
+        <span class="big">你</span>
+        <span class="small" id="youState">还撑得住</span>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="event-head">
+        <span class="tag" id="evTag">外部信号</span>
+        <span id="evTurn">--</span>
+      </div>
+      <p class="ev-line" id="evLine"></p>
+      <div class="chips" id="evCost"></div>
+      <div class="chips mods" id="evMods"></div>
+      <div class="inter">
+        <button class="btn-inter" id="btnInter" type="button">交互</button>
+        <span class="inter-lab" id="interLab"></span>
+      </div>
+      <p class="ev-result" id="evResult"></p>
+    </div>
+
+    <div class="acts" id="acts"></div>
+
+    <details class="log">
+      <summary id="logSum">记录 0</summary>
+      <ol id="logList"></ol>
+    </details>
+  </section>
+
+  <!-- ================= 结束页 ================= -->
+  <section class="screen" id="scrEnd">
+    <div class="end">
+      <p class="eyebrow" id="endKicker">结局</p>
+      <h1 id="endTitle"></h1>
+      <p class="deck" id="endDeck"></p>
+      <div class="end-stats">
+        <div class="box"><span class="k">理智</span><span class="v" id="esSan">0</span></div>
+        <div class="box"><span class="k">愉悦</span><span class="v" id="esJoy">0</span></div>
+        <div class="box"><span class="k">自信</span><span class="v" id="esConf">0</span></div>
+      </div>
+      <p class="end-counts" id="endCounts"></p>
+      <div class="end-actions">
+        <button class="btn-go" id="btnAgain" type="button" style="max-width:220px">再过一遍</button>
+        <button class="btn-ghost2" id="btnBack" type="button">调整光源</button>
+      </div>
+      <p class="tip" id="endTip"></p>
     </div>
   </section>
 
-  <!-- ============ 参数表：把「简介」拆成可读的几行 ============ -->
-  <section class="sec" id="spec">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 class="sec-title">参数</h2>
-        <p class="sec-note">02 — SPEC</p>
-      </div>
-      <div class="spec">
-        <!-- 每一项改 .v 里面的文字就行，想加一行就复制整个 .item -->
-        <div class="item"><div class="k">目前身份</div><div class="v">高中十一年级学生</div></div>
-        <div class="item"><div class="k">在读课程</div><div class="v">AP 计算机 · AP 物理 · AP 统计 <small>（在学中）</small></div></div>
-        <div class="item"><div class="k">常用工具</div><div class="v">VS Code、GitHub、Figma <small>（按使用频率排）</small></div></div>
-        <div class="item"><div class="k">会一点</div><div class="v">HTML / CSS / JavaScript / Python 基础</div></div>
-        <div class="item"><div class="k">正在学</div><div class="v">响应式布局、DOM、把项目真正发布上线</div></div>
-        <div class="item"><div class="k">可聊的话题</div><div class="v">AI 工具怎么用、网站怎么做、社团怎么招人</div></div>
-      </div>
-    </div>
-  </section>
+</div>
 
-  <!-- ============ 做过的事 ============ -->
-  <section class="sec" id="work">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 class="sec-title">在做的事</h2>
-        <p class="sec-note">03 — WORK</p>
-      </div>
-      <ul class="item-list">
-        <li>
-          <a class="work" href="#work">
-            <span class="when">2025 — 现在</span>
-            <span class="name">AI 社团</span>
-            <span class="desc">带同学从零学提示词和网页制作，每学期做一次小型作品展。</span>
-          </a>
-        </li>
-        <li>
-          <a class="work" href="#work">
-            <span class="when">2025</span>
-            <span class="name">StylePhone 个人站</span>
-            <span class="desc">你正在看的这个页面。手写 HTML/CSS，从本地文件到 GitHub Pages 全流程自己走一遍。</span>
-          </a>
-        </li>
-        <li>
-          <a class="work" href="#work">
-            <span class="when">2026</span>
-            <span class="name">一个还没名字的小工具</span>
-            <span class="desc">用来整理每周的作业和考试安排，目前只在本地跑，做完了会放上来。</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ============ 联系 ============ -->
-  <section class="sec" id="contact">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 class="sec-title">联系</h2>
-        <p class="sec-note">04 — CONTACT</p>
-      </div>
-      <ul class="contact-list">
-        <!-- 把下面两处 href 换成你自己的真实地址 -->
-        <li>
-          <a class="contact-link" href="mailto:13263325764@163.com">
-            <span class="label">邮箱</span>
-            <span class="value">13263325764@163.com</span>
-          </a>
-        </li>
-        <li>
-          <a class="contact-link" href="https://github.com/StephenChen122" target="_blank" rel="noopener">
-            <span class="label">GitHub</span>
-            <span class="value">github.com/StephenChen122</span>
-          </a>
-        </li>
-        <li>
-          <a class="contact-link" href="#top">
-            <span class="label">回到顶部</span>
-            <span class="value">全页看完</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;width:100%">
-    <span>© <span id="year">2026</span> Stephen Chen · StylePhone</span>
-    <span>手写 HTML · CSS · JavaScript</span>
+<div class="veil" id="veil">
+  <div class="pick">
+    <p class="eyebrow">走到这一步</p>
+    <h2 class="pick-title">你正在变成某种人</h2>
+    <p class="pick-sub">选一个。它会一直生效，也会把麻烦一起带进来。</p>
+    <div class="pick-list" id="pickList"></div>
   </div>
-</footer>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
 
 <script>
-/* 复制邮箱：点了给真实反馈，不做假按钮 */
 (function () {
-  var EMAIL = "13263325764@163.com";        // ← 改这里要和上面「邮箱」那一行一致
-  var btn = document.getElementById("copyMail");
-  var toast = document.getElementById("toast");
-  var timer = null;
+  "use strict";
 
-  function showToast(msg) {
-    toast.textContent = msg;
-    toast.classList.add("show");
-    clearTimeout(timer);
-    timer = setTimeout(function () { toast.classList.remove("show"); }, 1800);
+  /* ---------------- 事件池 ----------------
+     每个事件除了立刻扣数值，还会临时改写某些选项的强弱：
+     mods 里的 pos / neg 会乘到对应选项的"正面 / 负面"效果上，
+     只影响紧接着的这一回合。
+     专注类 = 学习 / 看书 / 打游戏   消遣类 = 刷视频 / 躺平 / 出门
+     ------------------------------------------------------------ */
+  var FOCUS = ["study", "read", "game"];
+  var CHILL = ["video", "lie", "out"];
+
+  var EVENTS = [
+    { line: "他发来一句：我们算了吧。", tag: "关系", drain: { san: -9, joy: -5 },
+      mods: [
+        { keys: FOCUS, pos: 0.6, neg: 1.4, note: "专注类：正面↓ 负面↑" },
+        { keys: ["video", "lie"], pos: 1.25, note: "消遣：更容易上头" }
+      ] },
+    { line: "月考排名贴在后墙，你在中下那一段。", tag: "学业", drain: { conf: -10 },
+      mods: [
+        { keys: ["study"], pos: 0.8, neg: 1.2, note: "学习：提不起劲" },
+        { keys: ["video", "lie"], pos: 1.15, note: "消遣：效果好一点" }
+      ] },
+    { line: "你在群里发了条消息，两个小时没人回。", tag: "关系", drain: { san: -10 },
+      mods: [
+        { keys: ["out"], pos: 0.7, neg: 1.3, note: "出门：不想见人" },
+        { keys: ["video"], pos: 1.2, note: "刷视频：还能待着" }
+      ] },
+    { line: "老师当着全班说：有些人就是不努力。", tag: "学业", drain: { conf: -9, san: -4 },
+      mods: [
+        { keys: ["study"], pos: 1.3, neg: 1.15, note: "学习：赌一口气" },
+        { keys: ["game"], pos: 0.8, note: "打游戏：越打越空" }
+      ] },
+    { line: "最好的朋友开始跟别人一起吃饭了。", tag: "关系", drain: { san: -9, joy: -7 },
+      mods: [
+        { keys: FOCUS, pos: 0.55, neg: 1.5, note: "专注类：正面↓ 负面↑" },
+        { keys: CHILL, pos: 1.2, note: "消遣类：效果↑" }
+      ] },
+    { line: "家里又吵了一架，你回房间关上门。", tag: "家庭", drain: { joy: -10, san: -3 },
+      mods: [
+        { keys: ["lie"], pos: 1.3, note: "躺平：更好躺了" },
+        { keys: ["out"], pos: 0.75, neg: 1.2, note: "出门：不想动" }
+      ] },
+    { line: "今天生日，只有外卖软件记得。", tag: "关系", drain: { joy: -10, san: -4 },
+      mods: [
+        { keys: ["video"], pos: 1.3, note: "刷视频：停不下来" },
+        { keys: ["read"], pos: 0.8, note: "看书：读不进去" }
+      ] },
+    { line: "半夜刷到别人在海边，你在被子里。", tag: "夜里", drain: { joy: -7, conf: -6 },
+      mods: [
+        { keys: FOCUS, pos: 0.6, neg: 1.45, note: "专注类：正面↓ 负面↑" },
+        { keys: CHILL, pos: 1.35, note: "消遣类：效果↑↑" }
+      ] },
+    { line: "社团名单出来了，没有你。", tag: "学业", drain: { conf: -11 },
+      mods: [
+        { keys: ["study"], pos: 1.3, note: "学习：想证明自己" },
+        { keys: ["game"], pos: 0.7, note: "打游戏：只是躲" }
+      ] },
+    { line: "亲戚问：以后考哪个大学啊。", tag: "家庭", drain: { conf: -8, san: -5 },
+      mods: [
+        { keys: ["study"], pos: 1.1, neg: 1.3, note: "学习：焦虑地学" },
+        { keys: ["lie"], pos: 1.2, note: "躺平：缓一下" }
+      ] },
+    { line: "手机相册跳出三年前的照片。", tag: "夜里", drain: { joy: -7 },
+      mods: [
+        { keys: ["lie"], pos: 1.25, note: "躺平：效果↑" },
+        { keys: ["read"], pos: 0.75, note: "看书：读不进去" },
+        { keys: ["out"], pos: 0.85, note: "出门：效果略↓" }
+      ] },
+    { line: "喜欢的人发了合照，配文两个字。", tag: "关系", drain: { joy: -9, san: -5 },
+      mods: [
+        { keys: ["video"], pos: 1.3, note: "刷视频：麻木一下" },
+        { keys: FOCUS, pos: 0.7, neg: 1.35, note: "专注类：正面↓ 负面↑" }
+      ] },
+    { line: "小测成绩发下来，比预想的好。", tag: "好事", drain: { conf: 8, joy: 2 },
+      mods: [ { keys: ["study"], pos: 1.35, note: "学习：状态正热" } ] },
+    { line: "妈妈给你留了饭，还热着。", tag: "好事", drain: { joy: 8, san: 3 },
+      mods: [ { keys: ["lie", "out"], pos: 1.15, note: "躺平/出门：效果↑" } ] },
+    { line: "难得十一点就睡着了，睡了八个小时。", tag: "好事", drain: { san: 9 },
+      mods: [ { keys: FOCUS, pos: 1.2, note: "专注类：效果↑" } ] },
+    { line: "有人在你朋友圈下面说：这张拍得真好。", tag: "好事", drain: { conf: 6, joy: 3 },
+      mods: [ { keys: ["out"], pos: 1.1, note: "出门：效果↑" } ] }
+  ];
+
+  var ISOLATE = {
+    line: "走廊上他们看见你就停下来了。你走过去的时候，没有人抬头。",
+    tag: "被孤立",
+    drain: { san: -13, joy: -6 },
+    mods: [
+      { keys: ["out"], pos: 0.6, neg: 1.35, note: "出门：更不想见人" },
+      { keys: ["video", "lie"], pos: 1.15, note: "消遣：先躲起来" }
+    ]
+  };
+
+  /* 出门越久，越容易有人来叫你出门 */
+  var OUT_INVITE = {
+    line: "朋友发来消息：周末出来玩吗？好久没见了。",
+    tag: "有人找你玩",
+    drain: { joy: 6 },
+    mods: [
+      { keys: ["out"], pos: 1.5, note: "出门：效果大幅↑" },
+      { keys: FOCUS, pos: 0.8, note: "专注类：效果↓" }
+    ]
+  };
+
+  /* ---- 交互：点一下这件事本身 ---- */
+  var INTER = {
+    "他发来一句：我们算了吧。": { label: "再看一遍那句话", eff: { san: -4, joy: -3 }, result: "你又读了一遍。字没变，胸口那下还是疼。" },
+    "月考排名贴在后墙，你在中下那一段。": { label: "凑近看排名", eff: { conf: -4, san: -2 }, result: "你把那一段从上往下看了三遍，想找到自己的名字停在哪。" },
+    "你在群里发了条消息，两个小时没人回。": { label: "再发一条", eff: { san: -5 }, result: "你补了一句说明。仍然没有人回。你开始想是不是说得太多了。" },
+    "老师当着全班说：有些人就是不努力。": { label: "在心里回他一句", eff: { conf: 2, san: -3 }, result: "你在心里把话说完，然后又替他辩解了一遍。" },
+    "最好的朋友开始跟别人一起吃饭了。": { label: "翻他们的合照", eff: { joy: -4, san: -3 }, result: "照片里他们笑得很自然，那是你很久没见过的那种笑。" },
+    "家里又吵了一架，你回房间关上门。": { label: "贴着门听", eff: { joy: -5 }, result: "隔着一层门板，你听清了自己被说到的名字。" },
+    "今天生日，只有外卖软件记得。": { label: "点一份想吃的", eff: { joy: 5, conf: -1 }, result: "你给自己点了份想吃的。吃的时候没有人说话，但味道是对的。" },
+    "半夜刷到别人在海边，你在被子里。": { label: "点开那个视频", eff: { joy: 6, san: -3 }, result: "海的声音很响。你看了将近十分钟，然后把它划走了。" },
+    "社团名单出来了，没有你。": { label: "去问一句为什么", eff: { conf: -4, san: -3 }, result: "对方很客气地解释了标准。你听懂了，也没再多问。" },
+    "亲戚问：以后考哪个大学啊。": { label: "认真回答一次", eff: { conf: 3, joy: -3 }, result: "你说了一个名字。他们点点头，然后开始聊别的事。" },
+    "手机相册跳出三年前的照片。": { label: "点开看看", eff: { joy: 8 }, result: "那个夏天你还什么都不知道。照片里的人笑得有点傻，你盯着看了很久。" },
+    "喜欢的人发了合照，配文两个字。": { label: "放大看", eff: { joy: -6, san: -3 }, result: "你放大了两次，看清了那只搭在肩上的手。" },
+    "小测成绩发下来，比预想的好。": { label: "发给妈妈", eff: { joy: 4, conf: 3 }, result: "她回了一个很长的语音，你只听了一半就笑了。" },
+    "妈妈给你留了饭，还热着。": { label: "坐下来吃完", eff: { joy: 5, san: 2 }, result: "你把饭吃完，碗放进水池。厨房里还有她刚才的声音。" },
+    "难得十一点就睡着了，睡了八个小时。": { label: "伸个懒腰", eff: { san: 2, joy: 2 }, result: "你难得没有一睁眼就看手机。窗户亮着，身体是轻的。" },
+    "有人在你朋友圈下面说：这张拍得真好。": { label: "回一个谢谢", eff: { conf: 3, joy: 2 }, result: "你回了个谢谢，然后又把那条评论看了一遍。" },
+    "走廊上他们看见你就停下来了。你走过去的时候，没有人抬头。": { label: "抬头看他们", eff: { san: -5, conf: -3 }, result: "你和其中一个人对上了眼。他很快低下了头。" },
+    "朋友发来消息：周末出来玩吗？好久没见了。": { label: "回一句好", eff: { joy: 4 }, result: "你打了三个字，删掉，又打了一遍。最后发出去的那个很短。" }
+  };
+  EVENTS.forEach(function (e) { e.opt = INTER[e.line]; });
+  ISOLATE.opt = INTER[ISOLATE.line];
+  OUT_INVITE.opt = INTER[OUT_INVITE.line];
+
+  /* ---- 身份会带回来的麻烦 ---- */
+  var EX_ISOLATE = {
+    line: "你考进了年级前十。走廊上他们看见你就停下来了。",
+    tag: "被孤立", drain: { san: -13, joy: -6, conf: -50 },
+    mods: [
+      { keys: ["out"], pos: 0.55, neg: 1.4, note: "出门：更不敢见人" },
+      { keys: ["study"], pos: 1.15, note: "学习：好像只剩这个" }
+    ],
+    opt: { label: "假装没看见", eff: { san: -4, conf: 2 }, result: "你把头低下去，走得很快。这样至少不用解释。" }
+  };
+  var EX_PARENT = {
+    line: "班主任把你妈叫到了学校，说你最近心思不在学习上。",
+    tag: "家长会", drain: { joy: -12, conf: -8 },
+    mods: [
+      { keys: ["video", "lie"], pos: 1.15, note: "消遣：回来得更凶" },
+      { keys: ["study"], pos: 0.75, neg: 1.25, note: "学习：被盯着学" }
+    ],
+    opt: { label: "低头不说话", eff: { conf: -4, joy: -2 }, result: "你站在走廊上听完。回去的路上，你妈一句话都没说。" }
+  };
+  var EX_FAVOR = {
+    line: "又有人半夜来找你，说了两个小时，第二天你什么都没记住。",
+    tag: "人情", drain: { san: -11, joy: -4 },
+    mods: [
+      { keys: ["out"], pos: 1.15, neg: 0.95, note: "出门：还是顺手" },
+      { keys: ["study", "read"], pos: 0.85, note: "专注类：脑子空着" }
+    ],
+    opt: { label: "继续听", eff: { san: -5, joy: 3 }, result: "你说了一句「没事，你说」。他接着说了一个小时。" }
+  };
+
+  /* ---- 身份：攒够之后认领的一种人 ---- */
+  var IDS = [
+    {
+      key: "xueba", name: "学霸", maintain: "study",
+      line: "你开始在教室待到熄灯。分数是真的在涨，说话的人是真的在少。",
+      instant: { conf: 30, san: -20 },
+      buff: "学习 正面↑ 负面↓｜看书 正面↑｜刷视频/躺平 效果↓｜3 回合不学习就掉",
+      mods: [
+        { keys: ["study"], pos: 1.35, neg: 0.75 },
+        { keys: ["read"], pos: 1.15, neg: 0.9 },
+        { keys: ["video", "lie"], pos: 0.8, neg: 1.2 }
+      ],
+      extra: EX_ISOLATE
+    },
+    {
+      key: "hunzi", name: "混子", maintain: "out",
+      line: "你在外面待的时间比在家长。认识的人多了，能说上话的反而少了。",
+      instant: { conf: 20, joy: 20, san: 15},
+      buff: "出门 正面↑ 负面↓｜消遣 略↑｜专注类 略↓｜3 回合不出门就掉",
+      mods: [
+        { keys: ["out"], pos: 1.3, neg: 0.8 },
+        { keys: ["video", "lie"], pos: 1.1 },
+        { keys: ["study", "read", "game"], pos: 0.9, neg: 1.1 }
+      ],
+      extra: EX_PARENT
+    },
+    {
+      key: "jiahao", name: "家豪", maintain: "video",
+      line: "你把日子过成了一串可以划走的视频。每天都挺满，回看全是空的。",
+      instant: { joy: 15, conf: 100, san: -20},
+      buff: "刷视频 正面↑ 负面↓｜躺平/打游戏 正面↑｜学习 效果↓｜3 回合不刷视频就掉",
+      mods: [
+        { keys: ["video"], pos: 1.35, neg: 0.75 },
+        { keys: ["lie", "game"], pos: 1.2, neg: 0.85 },
+        { keys: ["study"], pos: 0.8, neg: 1.15 }
+      ],
+      extra: EX_FAVOR
+    }
+  ];
+
+  /* ---------------- 六个选项 ---------------- */
+  var ACTIONS = [
+    { key: "study", name: "学习", desc: "把书翻开，做一套题",
+      eff: { conf: 12, joy: -10, san: -6 },
+      after: "你学了两个小时。脑子清楚了一点，但更不想说话了。" },
+    { key: "video", name: "刷视频", desc: "一条接一条，停不下来",
+      eff: { joy: 14, conf: -6, san: -3 },
+      after: "再抬头已经一点了。笑过，但一个都没记住。" },
+    { key: "read", name: "看书", desc: "一本没什么用的闲书",
+      eff: { san: 7, conf: 2, joy: -3 },
+      after: "你读进去了一点。世界安静下来，也没那么需要别人了。" },
+    { key: "lie", name: "躺平", desc: "什么都不做，就躺着",
+      eff: { joy: 10, san: 4, conf: -8 },
+      after: "你躺了很久。很舒服，但起身的时候更空。" },
+    { key: "game", name: "打游戏", desc: "再一把，就一把",
+      eff: { joy: 12, san: -4, conf: -4 },
+      after: "赢两把输一把。关掉的时候手有点抖。" },
+    { key: "out", name: "出门", desc: "走到楼下，吹会儿风",
+      eff: { san: 5, conf: 2, joy: 1 },
+      after: "你在楼下站了十分钟。什么也没解决，但呼吸顺了。" }
+  ];
+
+  var KEYS = { san: "理智", joy: "愉悦", conf: "自信" };
+
+  var ENDINGS = {
+    she: {
+      kicker: "理智归零",
+      title: "社死",
+      text: "你没有做错什么，只是太久没让自己喘口气。克制是一种会被花完的能量，它需要被照顾，不需要被证明。第二天你照常出门，只是说话前会先想三秒。"
+    },
+    sun: {
+      kicker: "愉悦归零",
+      title: "晴天娃娃",
+      text: "愉悦归零不是「终于安静了」，是情绪干涸。这种时候人会以为这就是自己的样子，其实不是——干涸是可以被补回来的。找一件很小但确实让你有点感觉的事，然后再找一个人，说一句具体的话。"
+    },
+    uni: {
+      kicker: "攒够了",
+      title: "大学",
+      text: "你攒够了二十五次学习。录取通知书上不会写「他很多次想放弃」，但你知道每一次是怎么熬过来的。"
+    },
+    esport: {
+      kicker: "攒够了",
+      title: "电竞王者",
+      text: "二十五次之后，你的段位比成绩单好看。有人问你怎么练的，你说：因为我没别的地方可赢。"
+    },
+    stream: {
+      kicker: "攒够了",
+      title: "主播",
+      text: "二十次刷视频、十五次杂项，你学会了别人爱看什么。镜头前的你很松弛，关掉之后要缓很久。你开始分不清哪一面的自己是真的。"
+    }
+  };
+
+  /* ---------------- DOM ---------------- */
+  function $(id) { return document.getElementById(id); }
+  var scrStart = $("scrStart"), scrPlay = $("scrPlay"), scrEnd = $("scrEnd");
+  var beams = $("beams"), ai = $("ai");
+  var turnVal = $("turnVal"), youState = $("youState");
+  var evTag = $("evTag"), evLine = $("evLine"), evCost = $("evCost"), evMods = $("evMods"), evResult = $("evResult"), evTurn = $("evTurn");
+  var turnLabel = "回合 ";
+  var actsBox = $("acts"), logList = $("logList"), logSum = $("logSum");
+  var btnInter = $("btnInter"), interLab = $("interLab"), identVal = $("identVal"), veil = $("veil"), pickList = $("pickList");
+  var numEls = {}, barEls = {}, nodeEls = {}, actRefs = {};
+  var beamsMap = { san: $("beam-san"), joy: $("beam-joy"), conf: $("beam-conf") };
+
+  Array.prototype.forEach.call(document.querySelectorAll(".stat"), function (n) {
+    nodeEls[n.getAttribute("data-key")] = n;
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-num]"), function (n) {
+    numEls[n.getAttribute("data-num")] = n;
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-bar]"), function (n) {
+    barEls[n.getAttribute("data-bar")] = n;
+  });
+
+  /* ---------------- 状态 ---------------- */
+  var S = {
+    san: 60, joy: 60, conf: 50,
+    turn: 0,
+    phase: "idle",
+    over: true,
+    counts: { study: 0, video: 0, read: 0, lie: 0, game: 0, out: 0 },
+    outStreak: 0,
+    deck: [],
+    cur: null,
+    lastDelta: null,
+    identity: null,
+    identMods: null,
+    identRef: null,
+    identLeft: 0,
+    identExtra: null,
+    identOffered: false,
+    identCooldown: 0,
+    extras: [],
+    interUsed: false
+  };
+  var timers = [], motionOn = true;
+  function later(fn, ms) {
+    var t = window.setTimeout(fn, ms);
+    timers.push(t);
+    return t;
+  }
+  function clearTimers() {
+    while (timers.length) { window.clearTimeout(timers.pop()); }
   }
 
-  btn.addEventListener("click", function () {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(EMAIL).then(function () {
-        showToast("邮箱已复制：" + EMAIL);
-      }).catch(function () {
-        showToast("复制失败，请手动记下：" + EMAIL);
-      });
-    } else {
-      showToast("这个浏览器不支持自动复制，请手动记下：" + EMAIL);
-    }
-  });
-})();
+  /* ---------------- 设置：光源 ---------------- */
+  var lightI = $("lightI"), lightT = $("lightT"), lightIV = $("lightIV"), lightTV = $("lightTV");
+  function applyLight() {
+    var i = (+lightI.value) / 100;
+    var t = (+lightT.value) / 100;
+    var hue = 36 + 158 * t;
+    document.documentElement.style.setProperty("--lamp-h", String(Math.round(hue)));
+    document.documentElement.style.setProperty("--lamp-i", i.toFixed(2));
+    lightIV.textContent = String(lightI.value);
+    lightTV.textContent = String(lightT.value);
+  }
+  lightI.addEventListener("input", applyLight);
+  lightT.addEventListener("input", applyLight);
+  applyLight();
 
-/* 页脚年份自动更新 */
-document.getElementById("year").textContent = new Date().getFullYear();
+  $("motion").addEventListener("change", function (e) {
+    motionOn = e.target.checked;
+    document.body.classList.toggle("no-motion", !motionOn);
+  });
+
+  /* ---------------- 数值工具 ---------------- */
+  function clamp(v) {
+    if (v < 0) return 0;
+    if (v > 100) return 100;
+    return v;
+  }
+  function mult() {
+    if (S.conf >= 75) return 0.5;
+    if (S.conf < 25) return 2;
+    return 1;
+  }
+  function colorFor(v) {
+    if (v > 66) return "#7FB08C";
+    if (v > 33) return "#D6A155";
+    return "#C4623F";
+  }
+  function paintStats() {
+    ["san", "joy", "conf"].forEach(function (k) {
+      var v = Math.round(S[k]);
+      if (numEls[k]) numEls[k].textContent = String(v);
+      if (barEls[k]) {
+        barEls[k].style.width = v + "%";
+        barEls[k].style.background = colorFor(v);
+      }
+    });
+    var lowest = Math.min(S.san, S.joy);
+    youState.textContent = lowest < 25 ? "快见底了" : (lowest < 50 ? "绷着" : "还撑得住");
+  }
+
+  /* ---------------- 事件抽取 ---------------- */
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+  function pickEvent() {
+    var pool = EVENTS.concat(S.extras);
+    /* 出门越久，越容易弹出"有人找你玩" */
+    var invite = Math.min(0.5, 0.13 * S.outStreak);
+    if (S.outStreak >= 1 && Math.random() < invite) return OUT_INVITE;
+    if (S.san < 40 && Math.random() < 0.25) return ISOLATE;
+    if (S.san < 40 && Math.random() < 0.5) {
+      var rel = pool.filter(function (e) { return e.tag === "关系"; });
+      if (rel.length) return rel[Math.floor(Math.random() * rel.length)];
+    }
+    if (S.deck.length === 0) S.deck = shuffle(pool.slice());
+    return S.deck.pop();
+  }
+
+  /* ---------------- 结算 ---------------- */
+  function applyDelta(d) {
+    var m = mult();
+    var out = { san: 0, joy: 0, conf: 0 };
+    Object.keys(d).forEach(function (k) {
+      if (k !== "san" && k !== "joy" && k !== "conf") return;
+      var v = d[k];
+      if (v < 0) v = Math.round(v * m);
+      S[k] = clamp(S[k] + v);
+      out[k] = v;
+    });
+    return out;
+  }
+
+  /* 已经算好倍率的数值，直接落到状态上（不再套自信倍率） */
+  function applyRaw(d) {
+    var out = { san: 0, joy: 0, conf: 0 };
+    Object.keys(d).forEach(function (k) {
+      if (k !== "san" && k !== "joy" && k !== "conf") return;
+      var v = Math.round(d[k]);
+      S[k] = clamp(S[k] + v);
+      out[k] = v;
+    });
+    return out;
+  }
+
+  /* 某个选项"此刻"的真实效果：事件修正 × 连续出门 × 自信倍率 */
+  function computeEff(a) {
+    var res = { san: 0, joy: 0, conf: 0 };
+    var posM = 1, negM = 1;
+
+    if (S.cur && S.cur.mods) {
+      S.cur.mods.forEach(function (m) {
+        if (m.keys.indexOf(a.key) === -1) return;
+        if (m.pos !== undefined) posM *= m.pos;
+        if (m.neg !== undefined) negM *= m.neg;
+      });
+    }
+
+    /* 认领的身份会一直改选项 */
+    if (S.identMods) {
+      S.identMods.forEach(function (m) {
+        if (m.keys.indexOf(a.key) === -1) return;
+        if (m.pos !== undefined) posM *= m.pos;
+        if (m.neg !== undefined) negM *= m.neg;
+      });
+    }
+
+    /* 连续出门：第 3 次往后，别的选项开始变钝，越连续越明显 */
+    if (a.key !== "out" && S.outStreak >= 3) {
+      var k = S.outStreak - 2;
+      posM *= Math.max(0.35, 1 - 0.10 * k);
+      negM *= Math.min(2.2, 1 + 0.12 * k);
+    }
+
+    /* 出门自己：第 9 次起，三根数值全部倒成负收益 */
+    if (a.key === "out" && (S.outStreak + 1) >= 9) {
+      res.san = -6; res.joy = -8; res.conf = -6;
+      return { eff: res };
+    }
+
+    var m = mult();
+    ["san", "joy", "conf"].forEach(function (s) {
+      var v = a.eff[s] || 0;
+      var out = v;
+      if (v > 0) out = v * posM;
+      else if (v < 0) out = v * negM;
+      if (out < 0) out = out * m;
+      out = Math.round(out);
+      if (out === 0 && v !== 0) out = v > 0 ? 1 : -1;
+      res[s] = out;
+    });
+    return { eff: res };
+  }
+
+  function flashNodes(out) {
+    Object.keys(out).forEach(function (k) {
+      if (!out[k]) return;
+      var el = nodeEls[k];
+      if (!el) return;
+      el.classList.remove("is-hit", "is-up", "shake");
+      if (out[k] < 0) { el.classList.add("is-hit", "shake"); }
+      else { el.classList.add("is-up"); }
+      var beam = beamsMap[k];
+      if (beam) {
+        beam.classList.remove("bad");
+        if (out[k] < 0) beam.classList.add("bad");
+      }
+    });
+    later(function () {
+      Object.keys(out).forEach(function (k) {
+        var el = nodeEls[k];
+        if (el) el.classList.remove("is-hit", "is-up", "shake");
+        var beam = beamsMap[k];
+        if (beam) beam.classList.remove("bad");
+      });
+    }, 1200);
+  }
+
+  function chip(text, cls) {
+    var s = document.createElement("span");
+    s.className = "chip" + (cls ? " " + cls : "");
+    s.textContent = text;
+    return s;
+  }
+  function fmt(v) {
+    return (v > 0 ? "+" : "-") + Math.abs(v);
+  }
+  function renderCost(out) {
+    evCost.innerHTML = "";
+    ["conf", "san", "joy"].forEach(function (k) {
+      if (!out[k]) return;
+      evCost.appendChild(chip(fmt(out[k]) + " " + KEYS[k], out[k] > 0 ? "plus" : "minus"));
+    });
+  }
+
+  /* 这回合的"环境描述"：哪些选项被改强 / 改弱 */
+  function renderMods() {
+    evMods.innerHTML = "";
+    var notes = [];
+    if (S.cur && S.cur.mods) {
+      S.cur.mods.forEach(function (m) {
+        if (m.note && notes.indexOf(m.note) === -1) notes.push(m.note);
+      });
+    }
+    if (S.outStreak >= 3) {
+      notes.push("连续出门 " + S.outStreak + " 次");
+    }
+    var mm = mult();
+    if (mm !== 1) notes.push(mm === 0.5 ? "自信≥75：扣减减半" : "自信<25：扣减翻倍");
+    notes.forEach(function (n) {
+      evMods.appendChild(chip(n, n.indexOf("连续出门") === 0 ? "warn" : "mod"));
+    });
+  }
+
+  /* ---------------- 选项卡 ---------------- */
+  ACTIONS.forEach(function (a) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "act";
+    var an = document.createElement("span"); an.className = "an"; an.textContent = a.name;
+    var ad = document.createElement("span"); ad.className = "ad"; ad.textContent = a.desc;
+    var ae = document.createElement("span"); ae.className = "ae";
+    b.appendChild(an); b.appendChild(ad); b.appendChild(ae);
+    b.addEventListener("click", function () { choose(a); });
+    actsBox.appendChild(b);
+    actRefs[a.key] = { btn: b, eff: ae };
+  });
+
+  function renderActions() {
+    ACTIONS.forEach(function (a) {
+      var ref = actRefs[a.key];
+      ref.eff.innerHTML = "";
+      var calc = computeEff(a);
+      ["conf", "san", "joy"].forEach(function (k) {
+        var v = calc.eff[k];
+        if (!v) return;
+        ref.eff.appendChild(chip(fmt(v) + " " + KEYS[k], v > 0 ? "plus" : "minus"));
+      });
+    });
+  }
+  function lockActions(locked) {
+    Object.keys(actRefs).forEach(function (k) {
+      actRefs[k].btn.classList.toggle("locked", locked);
+    });
+  }
+
+  /* ---------------- 回合 ---------------- */
+  function startGame() {
+    clearTimers();
+    S.san = 60; S.joy = 60; S.conf = 50;
+    S.turn = 0;
+    S.over = false;
+    S.phase = "idle";
+    S.counts = { study: 0, video: 0, read: 0, lie: 0, game: 0, out: 0 };
+    S.outStreak = 0;
+    S.deck = [];
+    S.cur = null;
+    S.lastDelta = null;
+    S.identity = null;
+    S.identMods = null;
+    S.identRef = null;
+    S.identLeft = 0;
+    S.identExtra = null;
+    S.identOffered = false;
+    S.identCooldown = 0;
+    S.extras = [];
+    S.interUsed = false;
+    identVal.textContent = "";
+    identVal.classList.remove("is-fading");
+    veil.classList.remove("on");
+    logList.innerHTML = "";
+    logSum.textContent = "记录 0";
+    paintStats();
+    showScreen("play");
+    nextTurn();
+  }
+
+  function nextTurn() {
+    if (S.over) return;
+    S.turn += 1;
+    if (S.identCooldown > 0) S.identCooldown -= 1;
+
+    var ev = pickEvent();
+    S.cur = ev;
+
+    var out = applyDelta(ev.drain);
+    S.lastDelta = out;
+
+    evTag.textContent = ev.tag;
+    evLine.textContent = ev.line;
+    evTurn.textContent = turnLabel + S.turn;
+    S.interUsed = false;
+    evResult.textContent = "";
+    evResult.classList.remove("show");
+    renderCost(out);
+    renderMods();
+    renderInter();
+    renderActions();
+    lockActions(false);
+    paintStats();
+    flashNodes(out);
+
+    beams.classList.add("is-live");
+    ai.classList.add("is-live");
+    later(function () { beams.classList.remove("is-live"); ai.classList.remove("is-live"); }, 1500);
+
+    turnVal.textContent = turnLabel + S.turn;
+    S.phase = "choose";
+
+    if (checkDeath()) return;
+  }
+
+  function choose(a) {
+    if (S.over || S.phase !== "choose") return;
+    S.phase = "resolving";
+    lockActions(true);
+
+    var calc = computeEff(a);
+    var out = applyRaw(calc.eff);
+    S.counts[a.key] += 1;
+    if (a.key === "out") S.outStreak += 1;
+    else S.outStreak = 0;
+
+    var expMsg = "";
+    if (S.identity && S.identRef) {
+      if (a.key === S.identRef.maintain) S.identLeft = 3;
+      else S.identLeft -= 1;
+      if (S.identLeft <= 0) expMsg = expireIdentity();
+      else updateIdent();
+    }
+
+    paintStats();
+    flashNodes(out);
+
+    evResult.textContent = a.after + (expMsg ? " " + expMsg : "");
+    evResult.classList.add("show");
+    renderCost(out);
+
+    var li = document.createElement("li");
+    var n = document.createElement("span"); n.className = "n";
+    n.textContent = (S.turn < 10 ? "0" : "") + S.turn;
+    var t = document.createElement("span"); t.className = "t"; t.textContent = S.cur.line;
+    var b = document.createElement("span"); b.className = "a"; b.textContent = a.name;
+    li.appendChild(n); li.appendChild(t); li.appendChild(b);
+    logList.appendChild(li);
+    logSum.textContent = "记录 " + S.turn;
+
+    if (checkDeath()) return;
+    if (checkAchieve()) return;
+    if (offerIdentity()) return;
+
+    later(function () { if (!S.over) nextTurn(); }, 1100);
+  }
+
+  function checkDeath() {
+    if (S.san <= 0) { endGame("she"); return true; }
+    if (S.joy <= 0) { endGame("sun"); return true; }
+    return false;
+  }
+  function checkAchieve() {
+    if (S.counts.study >= 25) { endGame("uni"); return true; }
+    if (S.counts.game >= 25) { endGame("esport"); return true; }
+    if (S.counts.video >= 20 && (S.counts.read + S.counts.lie + S.counts.game) >= 15) {
+      endGame("stream"); return true;
+    }
+    return false;
+  }
+
+  /* ---------------- 交互 ---------------- */
+  function renderInter() {
+    var o = S.cur && S.cur.opt;
+    btnInter.disabled = !o || S.interUsed;
+    btnInter.style.visibility = o ? "visible" : "hidden";
+    interLab.textContent = !o ? "" : (S.interUsed ? "已完成" : o.label);
+  }
+
+  function doInter() {
+    if (!S.cur || !S.cur.opt || S.interUsed || S.over || S.phase !== "choose") return;
+    S.interUsed = true;
+    var o = S.cur.opt;
+    var out = applyDelta(o.eff);
+    paintStats();
+    flashNodes(out);
+    renderCost(out);
+    evResult.textContent = o.result;
+    evResult.classList.add("show");
+    renderMods();
+    renderActions();
+    renderInter();
+    if (checkDeath()) return;
+  }
+
+  /* ---------------- 身份 ---------------- */
+  function offerIdentity() {
+    if (S.identity || S.identOffered || S.identCooldown > 0) return false;
+    var list = [];
+    if (S.counts.study >= 3) list.push(IDS[0]);
+    if (S.counts.out >= 3) list.push(IDS[1]);
+    if (S.counts.video >= 3) list.push(IDS[2]);
+    if (!list.length) return false;
+    S.identOffered = true;
+    renderPick(list);
+    veil.classList.add("on");
+    return true;
+  }
+
+  function updateIdent() {
+    if (!S.identity || !S.identRef) return;
+    identVal.textContent = S.identRef.name + " · 剩 " + S.identLeft + " 回合";
+    identVal.classList.toggle("is-fading", S.identLeft <= 1);
+  }
+
+  /* 连着几回合不碰它，身份就掉，自信砍一半 */
+  function expireIdentity() {
+    var id = S.identRef;
+    if (id && id.extra) {
+      S.extras = S.extras.filter(function (e) { return e !== id.extra; });
+    }
+    S.identity = null;
+    S.identMods = null;
+    S.identRef = null;
+    S.identLeft = 0;
+    S.identExtra = null;
+    /* 身份掉了以后，隔几回合可以重新长出一个 */
+    S.identOffered = false;
+    S.identCooldown = 0;
+
+    var before = S.conf;
+    S.conf = clamp(Math.round(S.conf / 2));
+    paintStats();
+    flashNodes({ conf: Math.round(S.conf) - Math.round(before) });
+
+    identVal.textContent = "身份掉了";
+    identVal.classList.add("is-fading");
+    renderMods();
+    renderActions();
+    return "「" + (id ? id.name : "") + "」撑不住了——你已经连着几回合没再碰它。身份没了，自信塌了一半。";
+  }
+
+  function renderPick(list) {
+    pickList.innerHTML = "";
+    list.forEach(function (id) {
+      var c = document.createElement("button");
+      c.type = "button";
+      c.className = "pick-card";
+
+      var n = document.createElement("span"); n.className = "pn"; n.textContent = id.name;
+      var l = document.createElement("span"); l.className = "pl"; l.textContent = id.line;
+      var e = document.createElement("span"); e.className = "pe";
+      ["conf", "san", "joy"].forEach(function (k) {
+        var v = id.instant[k];
+        if (!v) return;
+        e.appendChild(chip(fmt(v) + " " + KEYS[k], v > 0 ? "plus" : "minus"));
+      });
+      var w = document.createElement("span"); w.className = "pw"; w.textContent = id.buff;
+
+      c.appendChild(n); c.appendChild(l); c.appendChild(e); c.appendChild(w);
+      c.addEventListener("click", function () { takeIdentity(id); });
+      pickList.appendChild(c);
+    });
+  }
+
+  function takeIdentity(id) {
+    S.identity = id.key;
+    S.identMods = id.mods;
+    S.identRef = id;
+    S.identLeft = 3;
+    S.identExtra = id.extra;
+    S.identOffered = true;
+    S.extras.push(id.extra);
+    veil.classList.remove("on");
+    updateIdent();
+
+    var out = applyDelta(id.instant);
+    paintStats();
+    flashNodes(out);
+    evResult.textContent = id.line;
+    evResult.classList.add("show");
+    renderMods();
+    renderActions();
+
+    later(function () { if (!S.over) nextTurn(); }, 1300);
+  }
+
+  /* ---------------- 结束 ---------------- */
+  function endGame(key) {
+    S.over = true;
+    S.phase = "done";
+    clearTimers();
+    beams.classList.remove("is-live");
+    ai.classList.remove("is-live");
+    lockActions(true);
+
+    var e = ENDINGS[key];
+    $("endKicker").textContent = e.kicker;
+    $("endTitle").textContent = e.title;
+    $("endDeck").textContent = e.text;
+    $("esSan").textContent = String(Math.round(S.san));
+    $("esJoy").textContent = String(Math.round(S.joy));
+    $("esConf").textContent = String(Math.round(S.conf));
+    $("endCounts").textContent =
+      "学习 " + S.counts.study + " 次 · 刷视频 " + S.counts.video + " 次 · 看书 " + S.counts.read +
+      " 次 · 躺平 " + S.counts.lie + " 次 · 打游戏 " + S.counts.game + " 次 · 出门 " +
+      S.counts.out + " 次 · 共用 " + S.turn + " 回合";
+
+    var tip;
+    if (key === "sun" || key === "she") {
+      tip = "这不是游戏里该硬撑过去的东西。如果你在现实里也长期睡不好、心慌、突然流泪，或者觉得什么都提不起兴趣——去找学校心理老师或医院心理科，这比在游戏里重开有用得多。";
+    } else {
+      tip = "结局只由次数决定，但现实不是。数值是简化的，代价不是。";
+    }
+    $("endTip").textContent = tip;
+
+    showScreen("end");
+  }
+
+  /* ---------------- 界面 ---------------- */
+  function showScreen(which) {
+    scrStart.classList.toggle("is-active", which === "start");
+    scrPlay.classList.toggle("is-active", which === "play");
+    scrEnd.classList.toggle("is-active", which === "end");
+  }
+
+  $("btnStart").addEventListener("click", function () { startGame(); });
+  btnInter.addEventListener("click", doInter);
+  $("btnAgain").addEventListener("click", function () { startGame(); });
+  $("btnBack").addEventListener("click", function () {
+    S.over = true;
+    clearTimers();
+    showScreen("start");
+  });
+  $("btnQuit").addEventListener("click", function () {
+    S.over = true;
+    S.phase = "done";
+    clearTimers();
+    beams.classList.remove("is-live");
+    ai.classList.remove("is-live");
+    showScreen("start");
+  });
+
+  paintStats();
+})();
 </script>
 </body>
 </html>
